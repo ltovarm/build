@@ -38,8 +38,8 @@ Asegúrate de tener instalados los siguientes programas en tu máquina:
 Clona este repositorio en tu máquina local:
 
 ```bash
-git clone <URL_DEL_REPOSITORIO>
-cd <NOMBRE_DEL_REPOSITORIO>
+git clone git@github.com:ltovarm/build.git
+cd build
 ```
 
 ### 2. Construir y Levantar el Contenedor
