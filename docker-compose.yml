@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  ubuntu-c-cpp:
+    image: ubuntu:latest
+    container_name: ubuntu-C
+    volumes:
+      - ./:/home/build
+    working_dir: /home/build
+    command: /bin/bash
+    tty: true
+    stdin_open: true
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+volumes:
+  myapp:
