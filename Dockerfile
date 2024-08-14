@@ -4,12 +4,19 @@ FROM ubuntu:latest
 # Actualizar el sistema e instalar herramientas de compilación
 RUN apt-get update && apt-get install -y \
     build-essential \
+    gdb \
     python3 \
     python3-pip \
     && apt-get clean
 
 # Verificar si el usuario 'build' existe, si no, crearlo
 RUN id -u build &>/dev/null || useradd -m -s /bin/bash build && echo "build:1234" | chpasswd && adduser build sudo
+
+# Cambiar al usuario 'build'
+USER build
+
+# Configuración del entorno
+ENV PATH="/home/build/.local/bin:${PATH}"
 
 # Establecer el directorio de trabajo
 WORKDIR /home/build

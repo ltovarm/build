@@ -1,0 +1,28 @@
+{
+    "version": 4,
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/src",
+                "${workspaceFolder}/inc",
+                "/usr/include",
+                "/usr/local/include"
+            ],
+            "defines": [],
+            "intelliSenseMode": "gcc-x64",
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/src",
+                    "${workspaceFolder}/inc",
+                    "/usr/include",
+                    "/usr/local/include"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            }
+        }
+    ]
+}

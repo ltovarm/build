@@ -1,0 +1,17 @@
+{
+    "name": "Ubuntu C/C++",
+    "dockerFile": "Dockerfile",
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "terminal.integrated.shell.linux": "/bin/bash"
+            }
+        }
+    },
+    "remoteUser": "build",
+    "runArgs": [
+        "--user",
+        "build"
+    ],
+    "postCreateCommand": "chsh -s /bin/bash build"
+}
