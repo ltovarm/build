@@ -1,28 +1,45 @@
-# Usar la imagen base de Ubuntu
+# Use the base image Ubuntu
 FROM ubuntu:latest
 
-# Actualizar el sistema e instalar herramientas de compilación
+# Switch to root user to install system packages
+USER root
+
+# Update the system and install build tools, including git
 RUN apt-get update && apt-get install -y \
     build-essential \
     gdb \
     python3 \
     python3-pip \
+    sudo \
+    git \ 
+    cmake \
     && apt-get clean
 
-# Verificar si el usuario 'build' existe, si no, crearlo
-RUN id -u build &>/dev/null || useradd -m -s /bin/bash build && echo "build:1234" | chpasswd && adduser build sudo
+# Create the 'build' user and add it to the sudo group if it does not already exist
+RUN id -u build &>/dev/null || useradd -m -s /bin/bash build && echo "build ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-# Cambiar al usuario 'build'
+# Adjust permissions for the home folder for the build user
+RUN chown -R build:build /home/build
+
+# Create the 'ohsi' folder and set permissions for the 'build' user
+RUN mkdir -p /home/build/ohsi && chown -R build:build /home/build/ohsi
+
+# Install Google Test
+RUN mkdir -p /tmp/gtest && cd /tmp/gtest && \
+    git clone https://github.com/google/googletest.git && \
+    cd googletest && \
+    cmake -S . -B build && \
+    cmake --build build --target install && \
+    rm -rf /tmp/gtest
+
+# Switch to the 'build' user
 USER build
 
-# Configuración del entorno
+# Environment configuration
 ENV PATH="/home/build/.local/bin:${PATH}"
 
-# Establecer el directorio de trabajo
+# Set the working directory
 WORKDIR /home/build
 
-# Crear la carpeta 'workspace' en el home del usuario 'build'
-RUN mkdir -p /home/build/workspace && chown build:build /home/build/workspace
-
-# Comando para mantener el contenedor corriendo
+# Command to keep the container running
 CMD ["/bin/bash"]
